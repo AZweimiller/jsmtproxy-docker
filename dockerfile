@@ -14,6 +14,8 @@ EXPOSE ${MTPROTO_PORT}
 
 ARG MTPROTO_SECRET
 ENV MTPROTO_SECRET ${MTPROTO_SECRET:-DEADBEEFDEADBEEFDEADBEEF}
-RUN sed -i "s/b0cbcef5a486d9636472ac27f8e11a9d/${MTPROTO_SECRET}/g" config.json
+
+COPY entrypoint.sh .
+ENTRYPOINT ["./entrypoint.sh"]
 
 CMD ["pm2-runtime", "start", "mtproxy.js", "-i", "max"]
